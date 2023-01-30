@@ -1,54 +1,39 @@
 import {
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  ContentChildren, ElementRef, forwardRef,
+  Input,
+  OnChanges, QueryList,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
+import {
   AbstractControl,
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
-  ValidationErrors,
+  ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors,
   Validator
 } from '@angular/forms';
-import { QueryOperatorDirective } from './query-operator.directive';
-import { QueryFieldDirective } from './query-field.directive';
-import { QueryEntityDirective } from './query-entity.directive';
-import { QuerySwitchGroupDirective } from './query-switch-group.directive';
-import { QueryButtonGroupDirective } from './query-button-group.directive';
-import { QueryInputDirective } from './query-input.directive';
-import { QueryRemoveButtonDirective } from './query-remove-button.directive';
-import { QueryEmptyWarningDirective } from './query-empty-warning.directive';
 import { QueryArrowIconDirective } from './query-arrow-icon.directive';
 import {
-  ButtonGroupContext,
-  Entity,
-  Field,
-  SwitchGroupContext,
-  EntityContext,
-  FieldContext,
+  ArrowIconContext, ButtonGroupContext, EmptyWarningContext, Entity, EntityContext, Field, FieldContext,
   InputContext,
   LocalRuleMeta,
   OperatorContext,
   Option,
   QueryBuilderClassNames,
   QueryBuilderConfig,
-  RemoveButtonContext,
-  ArrowIconContext,
-  Rule,
-  RuleSet,
-  EmptyWarningContext,
+  RemoveButtonContext, Rule,
+  RuleSet, SwitchGroupContext
 } from './query-builder.interfaces';
-import {
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  ContentChildren,
-  forwardRef,
-  Input,
-  OnChanges,
-  OnInit,
-  QueryList,
-  SimpleChanges,
-  TemplateRef,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import { QueryButtonGroupDirective } from './query-button-group.directive';
+import { QueryEmptyWarningDirective } from './query-empty-warning.directive';
+import { QueryEntityDirective } from './query-entity.directive';
+import { QueryFieldDirective } from './query-field.directive';
+import { QueryInputDirective } from './query-input.directive';
+import { QueryOperatorDirective } from './query-operator.directive';
+import { QueryRemoveButtonDirective } from './query-remove-button.directive';
+import { QuerySwitchGroupDirective } from './query-switch-group.directive';
 
 export const CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -785,7 +770,7 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
           return this.validateRulesInRuleset(item as RuleSet, errorStore);
         } else if ((item as Rule).field) {
           const field = this.config.fields[(item as Rule).field];
-          if (field && field.validator && field.validator.apply) {
+          if (field && field.validator && !!field.validator.apply) {
             const error = field.validator(item as Rule, ruleset);
             if (error != null) {
               errorStore.push(error);
