@@ -254,7 +254,7 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
 
   findQueryInput(type: string): QueryInputDirective {
     const templates = this.parentInputTemplates || this.inputTemplates;
-    return templates.find((item) => item.queryInputType === type) as QueryInputDirective;
+    return templates?.find((item) => item.queryInputType === type) as QueryInputDirective;
   }
 
   getOperators(field: string): string[] {
